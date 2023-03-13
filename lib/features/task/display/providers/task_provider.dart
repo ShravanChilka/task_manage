@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manage/features/task/data/models/task_model.dart';
-import 'package:task_manage/features/task/data/repository/task_repository.dart';
+import '../../domain/repository/repository.dart';
 
 class TaskProvider extends ChangeNotifier {
   final TaskRepository repository;
-  final Stream<QuerySnapshot<TaskModel>> allTasks;
+  late final User user;
+  late final Stream<QuerySnapshot<TaskModel>> allTasks;
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
   DateTime get date => _date;
@@ -25,7 +27,14 @@ class TaskProvider extends ChangeNotifier {
 
   TaskProvider({
     required this.repository,
-  }) : allTasks = repository.getAll();
+  });
+
+  void init({
+    required User user,
+  }) {
+    user = user;
+    allTasks = repository.getAll(uid: user.uid);
+  }
 
   DateTime getDateTime() {
     return date.copyWith(
@@ -39,6 +48,7 @@ class TaskProvider extends ChangeNotifier {
     required String description,
   }) async {
     final response = await repository.create(
+      uid: user.uid,
       taskModel: TaskModel(
         title: title,
         description: description,
@@ -63,6 +73,7 @@ class TaskProvider extends ChangeNotifier {
     required String description,
   }) async {
     final response = await repository.update(
+      uid: user.uid,
       taskModel: TaskModel(
         title: title,
         description: description,
@@ -88,6 +99,7 @@ class TaskProvider extends ChangeNotifier {
     required String description,
   }) async {
     final response = await repository.delete(
+      uid: user.uid,
       doc: doc,
     );
     return response.fold(

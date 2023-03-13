@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/config/styles.dart';
+import '../../config/style/styles.dart';
 
 class CustomNotificationWidget extends StatelessWidget {
   final bool isEnabled;

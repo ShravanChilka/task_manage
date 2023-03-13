@@ -3,7 +3,7 @@ import 'package:task_manage/common/widgets/custom_date_picker.dart';
 import 'package:task_manage/common/widgets/custom_drop_down.dart';
 import 'package:task_manage/common/widgets/custom_notification_widget.dart';
 import 'package:task_manage/common/widgets/custom_text_field.dart';
-import 'package:task_manage/core/config/styles.dart';
+import 'package:task_manage/config/style/styles.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({Key? key}) : super(key: key);

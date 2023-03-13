@@ -1,39 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:task_manage/core/errors/index.dart';
 import 'package:task_manage/features/task/data/models/task_model.dart';
 
 @immutable
-abstract class TaskModelRemoteDataSourceInterface {
-  Stream<QuerySnapshot<TaskModel>> getAll();
+abstract class TaskModelRemoteDataSource {
+  Stream<QuerySnapshot<TaskModel>> getAll({
+    required String uid,
+  });
   Future<String> create({
     required TaskModel taskModel,
+    required String uid,
   });
   Future<String> update({
     required DocumentSnapshot doc,
     required TaskModel taskModel,
+    required String uid,
   });
   Future<String> delete({
     required DocumentSnapshot doc,
+    required String uid,
   });
 }
 
 @immutable
-class TaskModelRemoteDataSource implements TaskModelRemoteDataSourceInterface {
+class TaskModelRemoteDataSourceImpl implements TaskModelRemoteDataSource {
   final FirebaseFirestore client;
-  final User user;
-  const TaskModelRemoteDataSource({
+  const TaskModelRemoteDataSourceImpl({
     required this.client,
-    required this.user,
   });
 
   @override
   Future<String> create({
+    required String uid,
     required TaskModel taskModel,
   }) async {
     try {
-      await client.collection(user.uid).add(
+      await client.collection(uid).add(
             taskModel.toJson(),
           );
       return 'Task Created Successfully!';
@@ -44,10 +47,11 @@ class TaskModelRemoteDataSource implements TaskModelRemoteDataSourceInterface {
 
   @override
   Future<String> delete({
+    required String uid,
     required DocumentSnapshot<Object?> doc,
   }) async {
     try {
-      await client.collection(user.uid).doc(doc.id).delete();
+      await client.collection(uid).doc(doc.id).delete();
       return 'Task deleted';
     } catch (e) {
       throw RemoteException(error: e.toString());
@@ -55,9 +59,11 @@ class TaskModelRemoteDataSource implements TaskModelRemoteDataSourceInterface {
   }
 
   @override
-  Stream<QuerySnapshot<TaskModel>> getAll() {
+  Stream<QuerySnapshot<TaskModel>> getAll({
+    required String uid,
+  }) {
     return client
-        .collection(user.uid)
+        .collection(uid)
         .withConverter(
           fromFirestore: (snapshot, options) =>
               TaskModel.fromJson(snapshot.data()!),
@@ -70,9 +76,10 @@ class TaskModelRemoteDataSource implements TaskModelRemoteDataSourceInterface {
   Future<String> update({
     required DocumentSnapshot<Object?> doc,
     required TaskModel taskModel,
+    required String uid,
   }) async {
     try {
-      await client.collection(user.uid).doc(doc.id).set(taskModel.toJson());
+      await client.collection(uid).doc(doc.id).set(taskModel.toJson());
       return 'Task updated!';
     } catch (e) {
       throw RemoteException(error: e.toString());

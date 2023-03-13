@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:task_manage/core/config/styles.dart';
+import 'package:task_manage/config/style/styles.dart';
 
 class CustomDatePicker extends StatelessWidget {
   const CustomDatePicker({Key? key}) : super(key: key);

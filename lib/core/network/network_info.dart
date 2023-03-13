@@ -1,13 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-abstract class NetworkConnectionInterface {
+abstract class NetworkInfo {
   Future<bool> isConnected();
 }
 
-class NetworkConnection implements NetworkConnectionInterface {
+class NetworkInfoImpl implements NetworkInfo {
   final Connectivity connectivity;
-  NetworkConnection({
+  NetworkInfoImpl({
     required this.connectivity,
   });
 

@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../core/config/styles.dart';
+import '../../config/style/styles.dart';
 
 class CustomDropDown extends StatelessWidget {
   const CustomDropDown({Key? key}) : super(key: key);
