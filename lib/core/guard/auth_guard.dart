@@ -22,7 +22,7 @@ class AuthGuard extends StatelessWidget {
           );
         } else {
           if (user != null) {
-            context.pushReplacement('home');
+            context.goNamed('home', extra: user);
             return HomeScreen(user: user);
           } else {
             return const LoginScreen();
