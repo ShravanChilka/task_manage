@@ -23,6 +23,9 @@ class AuthProvider extends ChangeNotifier {
       (data) {
         log(data.toString());
         user = data;
+        if (user != null) {
+          AppRouter.router.goNamed(Pages.home.screenName, extra: user!);
+        }
       },
     );
     notifyListeners();
@@ -33,7 +36,6 @@ class AuthProvider extends ChangeNotifier {
     response.fold(
       (error) => failure = error,
       (data) {
-        log(data.toString());
         user = data.user;
         if (user != null) {
           AppRouter.router.goNamed(Pages.home.screenName, extra: user!);

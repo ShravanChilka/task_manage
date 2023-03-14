@@ -4,7 +4,7 @@ import 'package:task_manage/config/style/styles.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
-  final String? Function(String?)? validator;
+  final String? Function(String? value)? validator;
   const CustomTextField({
     Key? key,
     required this.controller,
@@ -15,6 +15,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       validator: validator,
       decoration: InputDecoration(
         hintText: hint,

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,20 @@ class TaskProvider extends ChangeNotifier {
   TimeOfDay get time => _time;
   String type = 'Personal';
   bool isNotificationEnabled = true;
+  TaskModel _taskModel = TaskModel(
+    title: '',
+    description: '',
+    dateTime: DateTime.now(),
+    type: TaskType.personal,
+    isNotificationEnabled: false,
+  );
+
+  set taskModel(TaskModel taskModel) {
+    _taskModel = taskModel;
+    notifyListeners();
+  }
+
+  TaskModel get taskModel => _taskModel;
 
   set timeOfDay(TimeOfDay value) {
     _time = value;
@@ -32,7 +47,7 @@ class TaskProvider extends ChangeNotifier {
   void init({
     required User user,
   }) {
-    user = user;
+    this.user = user;
     allTasks = repository.getAll(uid: user.uid);
   }
 
@@ -47,15 +62,17 @@ class TaskProvider extends ChangeNotifier {
     required String title,
     required String description,
   }) async {
+    final TaskModel taskModel = TaskModel(
+      title: title,
+      description: description,
+      dateTime: getDateTime(),
+      type: TaskType.personal,
+      isNotificationEnabled: isNotificationEnabled,
+    );
+    log(taskModel.toString());
     final response = await repository.create(
       uid: user.uid,
-      taskModel: TaskModel(
-        title: title,
-        description: description,
-        dateTime: getDateTime(),
-        type: TaskType.personal,
-        isNotificationEnabled: isNotificationEnabled,
-      ),
+      taskModel: taskModel,
     );
     return response.fold(
       (faliure) {

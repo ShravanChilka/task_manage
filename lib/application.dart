@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manage/config/di/injector.dart';
@@ -14,10 +15,13 @@ class TaskManage extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => injector.get<AuthProvider>(),
+          create: (_) => injector.get<AuthProvider>()..getUser(),
         ),
         Provider(
-          create: (_) => injector.get<TaskProvider>(),
+          create: (_) => injector.get<TaskProvider>()
+            ..init(
+              user: FirebaseAuth.instance.currentUser!,
+            ),
         ),
       ],
       child: MaterialApp.router(
