@@ -23,7 +23,7 @@ mixin _$TaskModel {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   DateTime get dateTime => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  TaskType get type => throw _privateConstructorUsedError;
   bool get isNotificationEnabled => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $TaskModelCopyWith<$Res> {
       {String title,
       String description,
       DateTime dateTime,
-      String type,
+      TaskType type,
       bool isNotificationEnabled});
 }
 
@@ -80,7 +80,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TaskType,
       isNotificationEnabled: null == isNotificationEnabled
           ? _value.isNotificationEnabled
           : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
@@ -100,7 +100,7 @@ abstract class _$$_TaskModelCopyWith<$Res> implements $TaskModelCopyWith<$Res> {
       {String title,
       String description,
       DateTime dateTime,
-      String type,
+      TaskType type,
       bool isNotificationEnabled});
 }
 
@@ -137,7 +137,7 @@ class __$$_TaskModelCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TaskType,
       isNotificationEnabled: null == isNotificationEnabled
           ? _value.isNotificationEnabled
           : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,7 @@ class _$_TaskModel implements _TaskModel {
   @override
   final DateTime dateTime;
   @override
-  final String type;
+  final TaskType type;
   @override
   final bool isNotificationEnabled;
 
@@ -214,7 +214,7 @@ abstract class _TaskModel implements TaskModel {
       {required final String title,
       required final String description,
       required final DateTime dateTime,
-      required final String type,
+      required final TaskType type,
       required final bool isNotificationEnabled}) = _$_TaskModel;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
@@ -227,7 +227,7 @@ abstract class _TaskModel implements TaskModel {
   @override
   DateTime get dateTime;
   @override
-  String get type;
+  TaskType get type;
   @override
   bool get isNotificationEnabled;
   @override

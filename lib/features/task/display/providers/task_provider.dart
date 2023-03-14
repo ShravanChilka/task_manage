@@ -53,7 +53,7 @@ class TaskProvider extends ChangeNotifier {
         title: title,
         description: description,
         dateTime: getDateTime(),
-        type: type,
+        type: TaskType.personal,
         isNotificationEnabled: isNotificationEnabled,
       ),
     );
@@ -78,7 +78,7 @@ class TaskProvider extends ChangeNotifier {
         title: title,
         description: description,
         dateTime: getDateTime(),
-        type: type,
+        type: TaskType.personal,
         isNotificationEnabled: isNotificationEnabled,
       ),
       doc: doc,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -51,6 +52,9 @@ void init() {
   );
 
   injector.registerLazySingleton<Client>(() => Client());
+  injector.registerLazySingleton<FirebaseFirestore>(
+    () => FirebaseFirestore.instance,
+  );
   injector.registerLazySingleton<Connectivity>(() => Connectivity());
   injector.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 }

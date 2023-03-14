@@ -31,7 +31,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return await FirebaseAuth.instance.signInWithCredential(authCredential);
     } catch (e) {
-      throw const RemoteException(error: 'Something went wrong!');
+      throw RemoteException(error: e.toString());
     }
   }
 }

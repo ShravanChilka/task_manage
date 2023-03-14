@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:task_manage/config/routes/app_router.dart';
 import 'package:task_manage/core/errors/index.dart';
 import 'package:task_manage/features/auth/domain/repository/auth_repository.dart';
-
+import 'dart:developer';
 import '../../../../config/routes/routes.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -20,7 +20,10 @@ class AuthProvider extends ChangeNotifier {
     final response = await repository.getUser();
     response.fold(
       (error) => failure = error,
-      (data) => user = data,
+      (data) {
+        log(data.toString());
+        user = data;
+      },
     );
     notifyListeners();
   }
@@ -30,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
     response.fold(
       (error) => failure = error,
       (data) {
+        log(data.toString());
         user = data.user;
         if (user != null) {
           AppRouter.router.goNamed(Pages.home.screenName, extra: user!);

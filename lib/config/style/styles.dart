@@ -44,7 +44,7 @@ final themeConfig = ThemeData(
     ),
     titleMedium: GoogleFonts.poppins().copyWith(
       fontSize: 14,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.bold,
     ),
     bodyMedium: GoogleFonts.poppins().copyWith(
       fontSize: 12,
