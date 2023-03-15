@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import 'package:task_manage/common/widgets/custom_date_picker.dart';
 import 'package:task_manage/common/widgets/custom_drop_down.dart';
 import 'package:task_manage/common/widgets/custom_notification_widget.dart';
 import 'package:task_manage/common/widgets/custom_text_field.dart';
@@ -142,12 +140,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           onTap: () async {
                             final time = await showTimePicker(
                               context: context,
-                              initialTime: TimeOfDay(
-                                hour: value.taskModel.dateTime.hour,
-                                minute: value.taskModel.dateTime.hour,
+                              initialTime: TimeOfDay.fromDateTime(
+                                value.taskModel.dateTime,
                               ),
                             );
-                            if (time != null) {}
+                            if (time != null) {
+                              value.taskModel = value.taskModel.copyWith(
+                                dateTime: value.taskModel.dateTime.copyWith(
+                                  hour: time.hour,
+                                  minute: time.minute,
+                                ),
+                              );
+                            }
                           },
                         ),
                       ),

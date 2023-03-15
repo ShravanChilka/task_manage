@@ -9,10 +9,6 @@ class TaskProvider extends ChangeNotifier {
   final TaskRepository repository;
   late final User user;
   late final Stream<QuerySnapshot<TaskModel>> allTasks;
-  DateTime _date = DateTime.now();
-  TimeOfDay _time = TimeOfDay.now();
-  DateTime get date => _date;
-  TimeOfDay get time => _time;
   String type = 'Personal';
   bool isNotificationEnabled = true;
   TaskModel _taskModel = TaskModel(
@@ -23,20 +19,10 @@ class TaskProvider extends ChangeNotifier {
     isNotificationEnabled: false,
   );
 
-  set taskModel(TaskModel taskModel) {
-    _taskModel = taskModel;
-    notifyListeners();
-  }
-
   TaskModel get taskModel => _taskModel;
 
-  set timeOfDay(TimeOfDay value) {
-    _time = value;
-    notifyListeners();
-  }
-
-  set dateTime(DateTime value) {
-    _date = value;
+  set taskModel(TaskModel value) {
+    _taskModel = value;
     notifyListeners();
   }
 
@@ -51,24 +37,10 @@ class TaskProvider extends ChangeNotifier {
     allTasks = repository.getAll(uid: user.uid);
   }
 
-  DateTime getDateTime() {
-    return date.copyWith(
-      hour: time.hour,
-      minute: time.minute,
-    );
-  }
-
   Future<String> createTask({
     required String title,
     required String description,
   }) async {
-    final TaskModel taskModel = TaskModel(
-      title: title,
-      description: description,
-      dateTime: getDateTime(),
-      type: TaskType.personal,
-      isNotificationEnabled: isNotificationEnabled,
-    );
     log(taskModel.toString());
     final response = await repository.create(
       uid: user.uid,
@@ -84,20 +56,10 @@ class TaskProvider extends ChangeNotifier {
     );
   }
 
-  Future<String> updateTask({
-    required DocumentSnapshot<TaskModel> doc,
-    required String title,
-    required String description,
-  }) async {
+  Future<String> updateTask() async {
     final response = await repository.update(
       uid: user.uid,
-      taskModel: TaskModel(
-        title: title,
-        description: description,
-        dateTime: getDateTime(),
-        type: TaskType.personal,
-        isNotificationEnabled: isNotificationEnabled,
-      ),
+      taskModel: taskModel,
       doc: doc,
     );
     return response.fold(
