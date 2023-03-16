@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manage/config/di/injector.dart';
 import 'package:task_manage/config/routes/app_router.dart';
-import 'package:task_manage/config/routes/routes.dart';
+import 'package:task_manage/config/routes/app_routes.dart';
 import 'package:task_manage/config/style/styles.dart';
 import 'package:task_manage/features/auth/display/provider/auth_provider.dart';
 import 'package:task_manage/features/task/data/models/task_model.dart';
 import 'package:task_manage/features/task/display/providers/task_provider.dart';
 import 'package:task_manage/features/task/domain/repository/repository.dart';
+
+import 'widgets/pop_up_menu_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,6 +25,15 @@ class HomeScreen extends StatelessWidget {
           user: context.read<AuthProvider>().user!,
         ),
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'My Tasks',
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          actions: const [
+            PopUpMenu(),
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             AppRouter.router.pushNamed(Pages.create.screenName);
@@ -37,14 +48,6 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'My Tasks',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  Text(
-                    '3 tasks for today',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
                   const SizedBox(height: defaultPadding),
                   Text(
                     'Pending Task',
@@ -60,11 +63,16 @@ class HomeScreen extends StatelessWidget {
                             return Text(snapshot.error.toString());
                           }
                           if (snapshot.hasData) {
-                            final data = snapshot.requireData;
-                            if (data.docs.isEmpty) {
+                            final data = snapshot.requireData.docs
+                                .where(
+                                  (element) =>
+                                      element.data().isCompleted == false,
+                                )
+                                .toList();
+                            if (data.isEmpty) {
                               return const Text('No results found');
                             }
-                            return TaskListView(docList: data.docs);
+                            return TaskListView(docList: data);
                           } else {
                             return const Center(
                               child: CircularProgressIndicator(),
@@ -89,11 +97,16 @@ class HomeScreen extends StatelessWidget {
                             return Text(snapshot.error.toString());
                           }
                           if (snapshot.hasData) {
-                            final data = snapshot.requireData;
-                            if (data.docs.isEmpty) {
+                            final data = snapshot.requireData.docs
+                                .where(
+                                  (element) =>
+                                      element.data().isCompleted == true,
+                                )
+                                .toList();
+                            if (data.isEmpty) {
                               return const Text('No results found');
                             }
-                            return TaskListView(docList: data.docs);
+                            return TaskListView(docList: data);
                           } else {
                             return const Center(
                               child: CircularProgressIndicator(),

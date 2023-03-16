@@ -32,6 +32,16 @@ final themeConfig = ThemeData(
   ),
   brightness: Brightness.light,
   fontFamily: GoogleFonts.poppins().fontFamily,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: const ButtonStyle().copyWith(
+      backgroundColor: const MaterialStatePropertyAll(
+        Palette.secondary500,
+      ),
+      foregroundColor: const MaterialStatePropertyAll(
+        Palette.neutral300,
+      ),
+    ),
+  ),
   textTheme: const TextTheme().copyWith(
     headlineLarge: GoogleFonts.poppins().copyWith(
       fontSize: 24,

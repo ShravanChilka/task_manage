@@ -1,35 +1,34 @@
-import 'dart:developer';
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:task_manage/config/style/styles.dart';
 
-class CustomDatePicker extends StatelessWidget {
-  const CustomDatePicker({Key? key}) : super(key: key);
+import '../../../../../config/style/styles.dart';
+
+class CustomSwitchWidget extends StatelessWidget {
+  final Icon activeIcon;
+  final Icon inactiveIcon;
+  final bool isTrue;
+  final String title;
+  final String description;
+  final void Function() onTap;
+  const CustomSwitchWidget({
+    Key? key,
+    required this.activeIcon,
+    required this.inactiveIcon,
+    required this.isTrue,
+    required this.title,
+    required this.description,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(defaultRadius * 2),
-      onTap: () async {
-        // showDatePicker(
-        //   context: context,
-        //   initialDate: DateTime.now(),
-        //   firstDate: DateTime.now(),
-        //   lastDate: DateTime(DateTime.now().year + 1),
-        // );
-        final time = await showTimePicker(
-          context: context,
-          initialTime: const TimeOfDay(hour: 0, minute: 0),
-        );
-        log(time.toString());
-      },
-      child: Container(
+      onTap: onTap,
+      child: Ink(
         decoration: BoxDecoration(
+          color: isTrue ? Palette.green : Palette.red,
           borderRadius: BorderRadius.circular(defaultRadius * 2),
-          border: Border.all(
-            width: 2,
-            color: Palette.neutral500,
-          ),
         ),
         child: Row(
           children: [
@@ -38,21 +37,21 @@ class CustomDatePicker extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: Palette.neutral500,
+                color: Palette.neutral300,
                 borderRadius: BorderRadius.circular(defaultRadius),
               ),
-              child: const Icon(Icons.date_range),
+              child: isTrue ? activeIcon : inactiveIcon,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Pick Date',
+                  description,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '1 June',
+                  title,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],

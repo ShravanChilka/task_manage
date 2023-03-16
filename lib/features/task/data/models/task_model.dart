@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:task_manage/config/style/styles.dart';
-
 part 'task_model.freezed.dart';
 part 'task_model.g.dart';
 
@@ -13,6 +12,7 @@ abstract class TaskModel with _$TaskModel {
     required DateTime dateTime,
     required TaskType type,
     required bool isNotificationEnabled,
+    required bool isCompleted,
   }) = _TaskModel;
 
   factory TaskModel.fromJson(Map<String, Object?> json) =>
@@ -31,6 +31,17 @@ extension GetColor on TaskType {
         return Palette.blue;
       case TaskType.work:
         return Palette.orange;
+    }
+  }
+}
+
+extension GetName on TaskType {
+  String get name {
+    switch (this) {
+      case TaskType.personal:
+        return 'Personal';
+      case TaskType.work:
+        return 'Work';
     }
   }
 }

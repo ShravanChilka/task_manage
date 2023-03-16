@@ -8,6 +8,8 @@ import 'package:task_manage/core/errors/index.dart';
 abstract class AuthRemoteDataSource {
   Future<UserCredential> signInWithGoogle();
   User? getUser();
+  Future<void> logout();
+  Future<void> deleteAccount();
 }
 
 @immutable
@@ -30,6 +32,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         idToken: auth?.idToken,
       );
       return await FirebaseAuth.instance.signInWithCredential(authCredential);
+    } catch (e) {
+      throw RemoteException(error: e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      throw RemoteException(error: e.toString());
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
     } catch (e) {
       throw RemoteException(error: e.toString());
     }

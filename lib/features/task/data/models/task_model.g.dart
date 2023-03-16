@@ -12,6 +12,7 @@ _$_TaskModel _$$_TaskModelFromJson(Map<String, dynamic> json) => _$_TaskModel(
       dateTime: DateTime.parse(json['dateTime'] as String),
       type: $enumDecode(_$TaskTypeEnumMap, json['type']),
       isNotificationEnabled: json['isNotificationEnabled'] as bool,
+      isCompleted: json['isCompleted'] as bool,
     );
 
 Map<String, dynamic> _$$_TaskModelToJson(_$_TaskModel instance) =>
@@ -21,6 +22,7 @@ Map<String, dynamic> _$$_TaskModelToJson(_$_TaskModel instance) =>
       'dateTime': instance.dateTime.toIso8601String(),
       'type': _$TaskTypeEnumMap[instance.type]!,
       'isNotificationEnabled': instance.isNotificationEnabled,
+      'isCompleted': instance.isCompleted,
     };
 
 const _$TaskTypeEnumMap = {

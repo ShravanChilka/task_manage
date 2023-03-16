@@ -25,6 +25,7 @@ mixin _$TaskModel {
   DateTime get dateTime => throw _privateConstructorUsedError;
   TaskType get type => throw _privateConstructorUsedError;
   bool get isNotificationEnabled => throw _privateConstructorUsedError;
+  bool get isCompleted => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $TaskModelCopyWith<$Res> {
       String description,
       DateTime dateTime,
       TaskType type,
-      bool isNotificationEnabled});
+      bool isNotificationEnabled,
+      bool isCompleted});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? dateTime = null,
     Object? type = null,
     Object? isNotificationEnabled = null,
+    Object? isCompleted = null,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -85,6 +88,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.isNotificationEnabled
           : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$_TaskModelCopyWith<$Res> implements $TaskModelCopyWith<$Res> {
       String description,
       DateTime dateTime,
       TaskType type,
-      bool isNotificationEnabled});
+      bool isNotificationEnabled,
+      bool isCompleted});
 }
 
 /// @nodoc
@@ -120,6 +128,7 @@ class __$$_TaskModelCopyWithImpl<$Res>
     Object? dateTime = null,
     Object? type = null,
     Object? isNotificationEnabled = null,
+    Object? isCompleted = null,
   }) {
     return _then(_$_TaskModel(
       title: null == title
@@ -142,6 +151,10 @@ class __$$_TaskModelCopyWithImpl<$Res>
           ? _value.isNotificationEnabled
           : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -154,7 +167,8 @@ class _$_TaskModel implements _TaskModel {
       required this.description,
       required this.dateTime,
       required this.type,
-      required this.isNotificationEnabled});
+      required this.isNotificationEnabled,
+      required this.isCompleted});
 
   factory _$_TaskModel.fromJson(Map<String, dynamic> json) =>
       _$$_TaskModelFromJson(json);
@@ -169,10 +183,12 @@ class _$_TaskModel implements _TaskModel {
   final TaskType type;
   @override
   final bool isNotificationEnabled;
+  @override
+  final bool isCompleted;
 
   @override
   String toString() {
-    return 'TaskModel(title: $title, description: $description, dateTime: $dateTime, type: $type, isNotificationEnabled: $isNotificationEnabled)';
+    return 'TaskModel(title: $title, description: $description, dateTime: $dateTime, type: $type, isNotificationEnabled: $isNotificationEnabled, isCompleted: $isCompleted)';
   }
 
   @override
@@ -187,13 +203,15 @@ class _$_TaskModel implements _TaskModel {
                 other.dateTime == dateTime) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.isNotificationEnabled, isNotificationEnabled) ||
-                other.isNotificationEnabled == isNotificationEnabled));
+                other.isNotificationEnabled == isNotificationEnabled) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, description, dateTime, type, isNotificationEnabled);
+  int get hashCode => Object.hash(runtimeType, title, description, dateTime,
+      type, isNotificationEnabled, isCompleted);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +233,8 @@ abstract class _TaskModel implements TaskModel {
       required final String description,
       required final DateTime dateTime,
       required final TaskType type,
-      required final bool isNotificationEnabled}) = _$_TaskModel;
+      required final bool isNotificationEnabled,
+      required final bool isCompleted}) = _$_TaskModel;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$_TaskModel.fromJson;
@@ -230,6 +249,8 @@ abstract class _TaskModel implements TaskModel {
   TaskType get type;
   @override
   bool get isNotificationEnabled;
+  @override
+  bool get isCompleted;
   @override
   @JsonKey(ignore: true)
   _$$_TaskModelCopyWith<_$_TaskModel> get copyWith =>

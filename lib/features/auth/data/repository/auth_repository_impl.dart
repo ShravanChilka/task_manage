@@ -40,4 +40,30 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Left(NetworkFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    if (await networkInfo.isConnected()) {
+      try {
+        return Right(await remoteDataSource.deleteAccount());
+      } on RemoteException catch (e) {
+        return Left(RemoteFailure(error: e.error));
+      }
+    } else {
+      return const Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> logOut() async {
+    if (await networkInfo.isConnected()) {
+      try {
+        return Right(await remoteDataSource.logout());
+      } on RemoteException catch (e) {
+        return Left(RemoteFailure(error: e.error));
+      }
+    } else {
+      return const Left(NetworkFailure());
+    }
+  }
 }

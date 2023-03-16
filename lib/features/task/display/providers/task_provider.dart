@@ -9,14 +9,14 @@ class TaskProvider extends ChangeNotifier {
   final TaskRepository repository;
   late final User user;
   late final Stream<QuerySnapshot<TaskModel>> allTasks;
-  String type = 'Personal';
-  bool isNotificationEnabled = true;
+
   TaskModel _taskModel = TaskModel(
     title: '',
     description: '',
     dateTime: DateTime.now(),
     type: TaskType.personal,
     isNotificationEnabled: false,
+    isCompleted: false,
   );
 
   TaskModel get taskModel => _taskModel;
@@ -37,11 +37,8 @@ class TaskProvider extends ChangeNotifier {
     allTasks = repository.getAll(uid: user.uid);
   }
 
-  Future<String> createTask({
-    required String title,
-    required String description,
-  }) async {
-    log(taskModel.toString());
+  Future<String> createTask() async {
+    log(_taskModel.toString());
     final response = await repository.create(
       uid: user.uid,
       taskModel: taskModel,
@@ -56,7 +53,10 @@ class TaskProvider extends ChangeNotifier {
     );
   }
 
-  Future<String> updateTask() async {
+  Future<String> updateTask({
+    required doc,
+  }) async {
+    log(_taskModel.toString());
     final response = await repository.update(
       uid: user.uid,
       taskModel: taskModel,
@@ -74,8 +74,6 @@ class TaskProvider extends ChangeNotifier {
 
   Future<String> deleteTask({
     required DocumentSnapshot<TaskModel> doc,
-    required String title,
-    required String description,
   }) async {
     final response = await repository.delete(
       uid: user.uid,

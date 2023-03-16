@@ -2,8 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:task_manage/config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/app_routes.dart';
 import '../../../auth/display/provider/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,9 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, state, child) {
-        // if (state.user != null) {
-        //   AppRouter.router.goNamed(Pages.home.screenName, extra: state.user!);
-        // }
         if (state.failure != null) {
           log(state.failure!.error.toString());
         }

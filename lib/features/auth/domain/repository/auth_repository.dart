@@ -7,4 +7,6 @@ import 'package:task_manage/core/errors/index.dart';
 abstract class AuthRepository {
   Future<Either<Failure, UserCredential>> signInWithGoogle();
   Future<Either<Failure, User?>> getUser();
+  Future<Either<Failure, void>> logOut();
+  Future<Either<Failure, void>> deleteAccount();
 }

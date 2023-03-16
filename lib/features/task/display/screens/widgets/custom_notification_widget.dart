@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import '../../config/style/styles.dart';
+
+import '../../../../../config/style/styles.dart';
 
 class CustomNotificationWidget extends StatelessWidget {
   final bool isEnabled;
+  final void Function() onTap;
   const CustomNotificationWidget({
     Key? key,
     required this.isEnabled,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(defaultRadius * 2),
-      onTap: () async {},
+      onTap: onTap,
       child: Ink(
         decoration: BoxDecoration(
           color: isEnabled ? Palette.green : Palette.red,
