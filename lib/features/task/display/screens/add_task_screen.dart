@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +10,6 @@ import 'package:task_manage/features/task/data/models/task_model.dart';
 import 'package:task_manage/features/task/display/providers/task_provider.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_drop_down.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_icon_button.dart';
-import 'package:task_manage/features/task/display/screens/widgets/custom_notification_widget.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_picker_widget.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_switch_tile.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_text_field.dart';

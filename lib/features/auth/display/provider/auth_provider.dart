@@ -21,7 +21,10 @@ class AuthProvider extends ChangeNotifier {
   Future<void> getUser() async {
     final response = await repository.getUser();
     response.fold(
-      (error) => failure = error,
+      (error) {
+        log(error.toString());
+        failure = error;
+      },
       (data) {
         log(data.toString());
         user = data;
@@ -36,7 +39,10 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signInWithGoogle() async {
     final response = await repository.signInWithGoogle();
     response.fold(
-      (error) => failure = error,
+      (error) {
+        log(error.error.toString());
+        failure = error;
+      },
       (data) {
         user = data.user;
         if (user != null) {

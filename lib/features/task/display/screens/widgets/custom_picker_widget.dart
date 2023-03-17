@@ -31,8 +31,8 @@ class CustomPickerWidget extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.all(defaultPadding),
-              width: 48,
-              height: 48,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 color: Palette.neutral500,
                 borderRadius: BorderRadius.circular(defaultRadius),

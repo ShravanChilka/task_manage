@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +37,9 @@ class TaskProvider extends ChangeNotifier {
   }
 
   Future<String> createTask() async {
-    log(_taskModel.toString());
     final response = await repository.create(
       uid: user.uid,
-      taskModel: taskModel,
+      taskModel: _taskModel,
     );
     return response.fold(
       (faliure) {
@@ -56,10 +54,9 @@ class TaskProvider extends ChangeNotifier {
   Future<String> updateTask({
     required doc,
   }) async {
-    log(_taskModel.toString());
     final response = await repository.update(
       uid: user.uid,
-      taskModel: taskModel,
+      taskModel: _taskModel,
       doc: doc,
     );
     return response.fold(

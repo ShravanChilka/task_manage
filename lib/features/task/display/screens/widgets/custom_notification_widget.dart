@@ -25,8 +25,8 @@ class CustomNotificationWidget extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.all(defaultPadding),
-              width: 48,
-              height: 48,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 color: Palette.neutral300,
                 borderRadius: BorderRadius.circular(defaultRadius),

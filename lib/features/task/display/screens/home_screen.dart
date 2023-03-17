@@ -162,6 +162,7 @@ class TaskTile extends StatelessWidget {
       child: InkWell(
         splashColor: Palette.red,
         onTap: () {
+          context.read<TaskProvider>().taskModel = taskDoc.data()!;
           context.pushNamed(Pages.create.screenName, extra: taskDoc);
         },
         borderRadius: BorderRadius.circular(defaultRadius * 2),
