@@ -37,12 +37,7 @@ class AuthProvider extends ChangeNotifier {
     final response = await repository.signInWithGoogle();
     response.fold(
       (error) => failure = error,
-      (data) {
-        user = data.user;
-        if (user != null) {
-          AppRouter.router.goNamed(Pages.home.screenName, extra: user!);
-        }
-      },
+      (data) {},
     );
     notifyListeners();
   }

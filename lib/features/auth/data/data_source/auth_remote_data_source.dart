@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -40,7 +39,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> deleteAccount() async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await FirebaseAuth.instance.currentUser?.delete();
     } catch (e) {
       throw RemoteException(error: e.toString());
     }
@@ -49,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     try {
-      await FirebaseAuth.instance.currentUser?.delete();
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       throw RemoteException(error: e.toString());
     }

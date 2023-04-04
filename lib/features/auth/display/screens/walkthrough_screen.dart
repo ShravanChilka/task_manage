@@ -21,50 +21,41 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Consumer<AuthProvider>(
-              builder: (_, value, __) {
-                return PageView(
+    return Consumer<AuthProvider>(
+      builder: (_, value, child) {
+        return Scaffold(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: PageView(
                   controller: _pageController,
                   physics: const BouncingScrollPhysics(),
                   padEnds: true,
                   onPageChanged: (index) => value.currentIndex = index,
                   children: value.pagesList,
-                );
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Consumer<AuthProvider>(
-            builder: (_, value, __) {
-              return CustomNavIndicator(
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomNavIndicator(
                 currentIndex: value.currentIndex,
                 itemCount: value.pagesList.length,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Consumer<AuthProvider>(
-            builder: (_, value, __) {
-              return ElevatedButton.icon(
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              ElevatedButton.icon(
                 icon: value.currentIndex == value.pagesList.length - 1
                     ? const ImageIcon(
                         AssetImage('assets/brand-google.png'),
                         color: Colors.white,
                       )
                     : const SizedBox.shrink(),
-                onPressed: () {
+                onPressed: () async {
                   if (value.currentIndex == value.pagesList.length - 1) {
-                    value.signInWithGoogle();
+                    await value.signInWithGoogle();
                   } else {
                     _pageController.nextPage(
                       duration: const Duration(milliseconds: 400),
@@ -77,14 +68,14 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                       ? 'Login with google'
                       : 'Next',
                 ),
-              );
-            },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+            ],
           ),
-          const SizedBox(
-            height: 24,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

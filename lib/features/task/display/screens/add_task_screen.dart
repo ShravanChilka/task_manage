@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manage/common/functions/utils.dart';
@@ -11,7 +9,6 @@ import 'package:task_manage/features/task/data/models/task_model.dart';
 import 'package:task_manage/features/task/display/providers/task_provider.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_drop_down.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_icon_button.dart';
-import 'package:task_manage/features/task/display/screens/widgets/custom_notification_widget.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_picker_widget.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_switch_tile.dart';
 import 'package:task_manage/features/task/display/screens/widgets/custom_text_field.dart';
@@ -80,7 +77,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       .deleteTask(doc: widget.documentSnapshot!)
                                       .then((value) {
                                     showSnackBar(context: context, text: value);
-                                    context.pop();
+                                    Navigator.of(context).pop();
                                   });
                                 },
                                 icon: const Icon(
@@ -90,7 +87,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               )
                             : const SizedBox.shrink(),
                         const SizedBox(
-                          width: defaultPadding / 2,
+                          width: defaultPadding * 0.5,
                         ),
                         CustomIconButton(
                           onTap: () async {
@@ -102,13 +99,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                                     .then((value) {
                                   showSnackBar(context: context, text: value);
-                                  context.pop();
+                                  Navigator.of(context).pop();
                                 });
                               } else {
                                 await value.createTask().then(
                                   (value) {
                                     showSnackBar(context: context, text: value);
-                                    context.pop();
+                                    Navigator.of(context).pop();
                                   },
                                 );
                               }

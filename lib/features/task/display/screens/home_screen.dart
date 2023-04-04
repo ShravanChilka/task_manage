@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:task_manage/config/di/injector.dart';
 import 'package:task_manage/config/routes/app_router.dart';
 import 'package:task_manage/config/routes/app_routes.dart';
 import 'package:task_manage/config/style/styles.dart';
-import 'package:task_manage/features/auth/display/provider/auth_provider.dart';
 import 'package:task_manage/features/task/data/models/task_model.dart';
 import 'package:task_manage/features/task/display/providers/task_provider.dart';
-import 'package:task_manage/features/task/domain/repository/repository.dart';
-
+import 'package:task_manage/features/task/display/screens/add_task_screen.dart';
 import 'widgets/pop_up_menu_button.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,105 +16,105 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => TaskProvider(repository: injector.get<TaskRepository>())
-        ..init(
-          user: context.read<AuthProvider>().user!,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'My Tasks',
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'My Tasks',
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-          actions: const [
-            PopUpMenu(),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            AppRouter.router.pushNamed(Pages.create.screenName);
-          },
-          child: const Icon(Icons.add),
-        ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: defaultPadding),
-                  Text(
-                    'Pending Task',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: defaultPadding * 0.4),
-                  Consumer<TaskProvider>(
-                    builder: (context, value, child) {
-                      return StreamBuilder<QuerySnapshot<TaskModel>>(
-                        stream: value.allTasks,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text(snapshot.error.toString());
-                          }
-                          if (snapshot.hasData) {
-                            final data = snapshot.requireData.docs
-                                .where(
-                                  (element) =>
-                                      element.data().isCompleted == false,
-                                )
-                                .toList();
-                            if (data.isEmpty) {
-                              return const Text('No results found');
+        actions: const [
+          PopUpMenu(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddTaskScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: defaultPadding),
+                Text(
+                  'Pending Task',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: defaultPadding * 0.4),
+                Selector<TaskProvider, Stream<QuerySnapshot<TaskModel>>>(
+                  selector: (context, value) => value.allTasks,
+                  builder: (context, allTasks, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StreamBuilder<QuerySnapshot<TaskModel>>(
+                          stream: allTasks,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Text(snapshot.error.toString());
                             }
-                            return TaskListView(docList: data);
-                          } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: defaultPadding),
-                  Text(
-                    'Completed Task',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: defaultPadding * 0.4),
-                  Consumer<TaskProvider>(
-                    builder: (context, value, child) {
-                      return StreamBuilder<QuerySnapshot<TaskModel>>(
-                        stream: value.allTasks,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text(snapshot.error.toString());
-                          }
-                          if (snapshot.hasData) {
-                            final data = snapshot.requireData.docs
-                                .where(
-                                  (element) =>
-                                      element.data().isCompleted == true,
-                                )
-                                .toList();
-                            if (data.isEmpty) {
-                              return const Text('No results found');
+                            if (snapshot.hasData) {
+                              final data = snapshot.requireData.docs
+                                  .where(
+                                    (element) =>
+                                        element.data().isCompleted == false,
+                                  )
+                                  .toList();
+                              if (data.isEmpty) {
+                                return const Text('No results found');
+                              }
+                              return TaskListView(docList: data);
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
-                            return TaskListView(docList: data);
-                          } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
+                          },
+                        ),
+                        const SizedBox(height: defaultPadding),
+                        Text(
+                          'Completed Task',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: defaultPadding * 0.4),
+                        StreamBuilder<QuerySnapshot<TaskModel>>(
+                          stream: allTasks,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Text(snapshot.error.toString());
+                            }
+                            if (snapshot.hasData) {
+                              final data = snapshot.requireData.docs
+                                  .where(
+                                    (element) =>
+                                        element.data().isCompleted == true,
+                                  )
+                                  .toList();
+                              if (data.isEmpty) {
+                                return const Text('No results found');
+                              }
+                              return TaskListView(docList: data);
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -162,7 +159,11 @@ class TaskTile extends StatelessWidget {
       child: InkWell(
         splashColor: Palette.red,
         onTap: () {
-          context.pushNamed(Pages.create.screenName, extra: taskDoc);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => AddTaskScreen(documentSnapshot: taskDoc),
+            ),
+          );
         },
         borderRadius: BorderRadius.circular(defaultRadius * 2),
         child: Ink(

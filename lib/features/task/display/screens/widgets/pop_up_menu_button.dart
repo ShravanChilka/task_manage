@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:task_manage/config/routes/app_routes.dart';
 import 'package:task_manage/features/auth/display/provider/auth_provider.dart';
 import '../dialogs/delete_account_dialog.dart';
 import '../dialogs/logout_dialog.dart';
@@ -21,9 +19,7 @@ class PopUpMenu extends StatelessWidget {
               await showLogOutDialog(context: context)
                   .then((shouldLogOut) async {
                 if (shouldLogOut) {
-                  await state.logOut().whenComplete(
-                        () => context.goNamed(Pages.login.screenName),
-                      );
+                  await state.logOut();
                 }
               });
               break;
@@ -31,9 +27,7 @@ class PopUpMenu extends StatelessWidget {
               await showDeleteAccountDialog(context: context).then(
                 (shouldDeleteAccount) async {
                   if (shouldDeleteAccount) {
-                    await state.deleteAccount().whenComplete(
-                          () => context.goNamed(Pages.login.screenName),
-                        );
+                    await state.deleteAccount();
                   }
                 },
               );
