@@ -1,18 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:task_manage/auth_guard.dart';
-import 'package:task_manage/core/network/network_info.dart';
-import 'package:task_manage/features/auth/data/data_source/auth_remote_data_source.dart';
-import 'package:task_manage/features/auth/data/repository/auth_repository_impl.dart';
-import 'package:task_manage/features/task/data/data_source/task_remote_data_source.dart';
-import 'package:task_manage/features/task/data/repository/task_repository.dart';
-import 'config/style/styles.dart';
-import 'features/auth/display/provider/auth_provider.dart';
-import 'features/task/display/providers/task_provider.dart';
+import 'package:task_manage/features/auth/view/auth_screen.dart';
+import 'config/styles.dart';
+import 'features/auth/view_model/auth_view_model.dart';
+import 'features/task/view_model/task_view_model.dart';
 import 'firebase_options.dart';
 
 void application() async {
@@ -32,38 +24,15 @@ class TaskManage extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(
-            repository: AuthRepositoryImpl(
-              remoteDataSource: AuthRemoteDataSourceImpl(
-                firebaseAuth: FirebaseAuth.instance,
-              ),
-              networkInfo: NetworkInfoImpl(
-                connectivity: Connectivity(),
-              ),
-            ),
-          ),
-        ),
-        StreamProvider(
-          create: (context) => FirebaseAuth.instance.authStateChanges(),
-          initialData: null,
+          create: (_) => AuthViewModel(),
         ),
         ChangeNotifierProvider(
-          create: (_) => TaskProvider(
-            repository: TaskRepositoryImpl(
-              remoteDataSource: TaskModelRemoteDataSourceImpl(
-                  client: FirebaseFirestore.instance),
-              networkInfo: NetworkInfoImpl(
-                connectivity: Connectivity(),
-              ),
-            ),
-          )..init(
-              user: FirebaseAuth.instance.currentUser!,
-            ),
+          create: (_) => TaskViewModel(),
         ),
       ],
       child: MaterialApp(
         theme: themeConfig,
-        home: const AuthGuard(),
+        home: const AuthScreen(),
       ),
     );
   }
