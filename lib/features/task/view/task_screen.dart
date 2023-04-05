@@ -72,9 +72,6 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.taskDoc != null) {
-      context.read<TaskViewModel>().taskModel = widget.taskDoc!.data()!;
-    }
     return Consumer<TaskViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
@@ -90,8 +87,8 @@ class _TaskScreenState extends State<TaskScreen> {
                   },
                 ),
               ),
+              const SizedBox(width: defaultPadding * 0.4),
               CustomFloatingActionButton(
-                backgroundColor: Palette.red,
                 icon: const Icon(Icons.check),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
@@ -106,6 +103,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   }
                 },
               ),
+              const SizedBox(width: defaultPadding * 0.4),
             ],
           ),
           body: SafeArea(

@@ -4,8 +4,6 @@ import 'package:task_manage/features/task/model/task_model.dart';
 import 'package:task_manage/features/task/web_service/firebase_web_service.dart';
 
 class TaskViewModel extends ChangeNotifier {
-  late final FirebaseWebService _service;
-  late final String _uid;
   TaskViewModel() {
     _service = FirebaseWebService(
       client: FirebaseFirestore.instance,
@@ -13,6 +11,8 @@ class TaskViewModel extends ChangeNotifier {
     _taskModel = TaskModel(dateTime: DateTime.now());
   }
 
+  late final FirebaseWebService _service;
+  String? _uid;
   late TaskModel _taskModel;
 
   set taskModel(TaskModel value) {
@@ -20,9 +20,9 @@ class TaskViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get uid => _uid;
+  String? get uid => _uid;
 
-  set uid(String value) {
+  set uid(String? value) {
     _uid = value;
     notifyListeners();
   }
@@ -30,11 +30,11 @@ class TaskViewModel extends ChangeNotifier {
   TaskModel get taskModel => _taskModel;
 
   Stream<QuerySnapshot<TaskModel>> getAll() => _service.getAll(
-        uid: uid,
+        uid: uid!,
       );
 
   Future<String> create() => _service.create(
-        uid: uid,
+        uid: uid!,
         taskModel: taskModel,
       );
 
@@ -44,7 +44,7 @@ class TaskViewModel extends ChangeNotifier {
       _service.update(
         doc: doc,
         taskModel: taskModel,
-        uid: uid,
+        uid: uid!,
       );
 
   Future<String> delete({
@@ -52,6 +52,6 @@ class TaskViewModel extends ChangeNotifier {
   }) =>
       _service.delete(
         doc: doc,
-        uid: uid,
+        uid: uid!,
       );
 }

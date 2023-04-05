@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:task_manage/core/errors/index.dart';
@@ -7,10 +8,34 @@ import 'package:task_manage/features/auth/web_service/firebase_auth_web_service.
 
 class AuthViewModel extends ChangeNotifier {
   late final FirebaseAuthWebService _service;
+  late final StreamSubscription _authStream;
+
+  User? _user;
+
+  set user(User? value) {
+    _user = value;
+    notifyListeners();
+  }
+
+  User? get user => _user;
+
   AuthViewModel() {
     _service = FirebaseAuthWebService(
       client: FirebaseAuth.instance,
     );
+    _authStream = _service.client.authStateChanges().listen(
+      (event) {
+        if (event != null) {
+          user = event;
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _authStream.cancel();
+    super.dispose();
   }
 
   Failure? _failure;
@@ -86,4 +111,6 @@ class AuthViewModel extends ChangeNotifier {
       failure = RemoteFailure(error: e.error);
     }
   }
+
+  Stream<User?> authStateChanges() => _service.authStateChanges();
 }

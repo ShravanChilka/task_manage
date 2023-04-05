@@ -39,4 +39,6 @@ class FirebaseAuthWebService {
       throw RemoteException(error: e.toString());
     }
   }
+
+  Stream<User?> authStateChanges() => FirebaseAuth.instance.authStateChanges();
 }

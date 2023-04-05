@@ -31,10 +31,7 @@ class CustomDropDown extends StatelessWidget {
         ],
         value: TaskType.personal,
         borderRadius: BorderRadius.circular(defaultRadius * 2),
-        icon: const Padding(
-          padding: EdgeInsets.all(defaultPadding * 0.5),
-          child: Icon(Icons.keyboard_arrow_down),
-        ),
+        icon: null,
         style: const TextStyle(color: Colors.deepPurple),
         itemHeight: null,
         onChanged: onChanged,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manage/config/styles.dart';
 import 'package:task_manage/features/task/model/task_model.dart';
+import 'package:task_manage/features/task/utils/pop_up_menu_button.dart';
 import 'package:task_manage/features/task/utils/task_list_view.dart';
 import 'package:task_manage/features/task/view/task_screen.dart';
 import 'package:task_manage/features/task/view_model/task_view_model.dart';
@@ -14,7 +15,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Tasks'),
+        title: Text(
+          'My Tasks',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        actions: const [PopUpMenu()],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
