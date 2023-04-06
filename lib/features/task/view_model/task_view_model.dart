@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manage/features/task/model/task_model.dart';
-import 'package:task_manage/features/task/web_service/firebase_web_service.dart';
+import 'package:task_manage/features/task/web_service/firebase_storage_web_service.dart';
 
 class TaskViewModel extends ChangeNotifier {
   TaskViewModel() {
@@ -14,7 +14,7 @@ class TaskViewModel extends ChangeNotifier {
   }
 
   late final FirebaseStorageWebService _service;
-  late TaskModel _taskModel;
+  late final TaskModel _taskModel;
 
   set taskModel(TaskModel value) {
     _taskModel = value;
@@ -23,7 +23,11 @@ class TaskViewModel extends ChangeNotifier {
 
   TaskModel get taskModel => _taskModel;
 
-  Stream<QuerySnapshot<TaskModel>> getAll() => _service.getAll();
+  Stream<List<QueryDocumentSnapshot<TaskModel>>> getAllCompleted() =>
+      _service.getAllCompleted();
+
+  Stream<List<QueryDocumentSnapshot<TaskModel>>> getAllNonCompleted() =>
+      _service.getAllNonCompleted();
 
   Future<String> create() => _service.create(
         taskModel: taskModel,

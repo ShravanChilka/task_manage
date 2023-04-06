@@ -11,41 +11,40 @@ class PopUpMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthViewModel>(
-      builder: (context, viewModel, child) => PopupMenuButton<MenuAction>(
-        onSelected: (value) async {
-          switch (value) {
-            case MenuAction.logOut:
-              await showLogOutDialog(context: context)
-                  .then((shouldLogOut) async {
+    return PopupMenuButton<MenuAction>(
+      onSelected: (value) async {
+        switch (value) {
+          case MenuAction.logOut:
+            await showLogOutDialog(context: context).then(
+              (shouldLogOut) async {
                 if (shouldLogOut) {
-                  await viewModel.logout();
+                  await context.read<AuthViewModel>().logout();
                 }
-              });
-              break;
-            case MenuAction.deleteAccount:
-              await showDeleteAccountDialog(context: context).then(
-                (shouldDeleteAccount) async {
-                  if (shouldDeleteAccount) {
-                    await viewModel.deleteAccount();
-                  }
-                },
-              );
-          }
-        },
-        itemBuilder: (context) {
-          return const [
-            PopupMenuItem<MenuAction>(
-              value: MenuAction.logOut,
-              child: Text('Log out'),
-            ),
-            PopupMenuItem<MenuAction>(
-              value: MenuAction.deleteAccount,
-              child: Text('Delete Account'),
-            ),
-          ];
-        },
-      ),
+              },
+            );
+            break;
+          case MenuAction.deleteAccount:
+            await showDeleteAccountDialog(context: context).then(
+              (shouldDeleteAccount) async {
+                if (shouldDeleteAccount) {
+                  await context.read<AuthViewModel>().deleteAccount();
+                }
+              },
+            );
+        }
+      },
+      itemBuilder: (context) {
+        return const [
+          PopupMenuItem<MenuAction>(
+            value: MenuAction.logOut,
+            child: Text('Log out'),
+          ),
+          PopupMenuItem<MenuAction>(
+            value: MenuAction.deleteAccount,
+            child: Text('Delete Account'),
+          ),
+        ];
+      },
     );
   }
 }

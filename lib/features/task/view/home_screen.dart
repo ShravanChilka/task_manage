@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manage/config/styles.dart';
@@ -46,25 +47,26 @@ class HomeScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: defaultPadding * 0.4),
-                  Selector<TaskViewModel, Stream<QuerySnapshot<TaskModel>>>(
-                    selector: (context, value) => value.getAll(),
-                    builder: (context, allTasks, child) {
+                  Selector<
+                      TaskViewModel,
+                      Tuple2<Stream<List<QueryDocumentSnapshot<TaskModel>>>,
+                          Stream<List<QueryDocumentSnapshot<TaskModel>>>>>(
+                    selector: (context, value) => Tuple2(
+                      value.getAllNonCompleted(),
+                      value.getAllCompleted(),
+                    ),
+                    builder: (context, tuple, child) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          StreamBuilder<QuerySnapshot<TaskModel>>(
-                            stream: allTasks,
+                          StreamBuilder<List<QueryDocumentSnapshot<TaskModel>>>(
+                            stream: tuple.value1,
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
                                 return Text(snapshot.error.toString());
                               }
                               if (snapshot.hasData) {
-                                final data = snapshot.requireData.docs
-                                    .where(
-                                      (element) =>
-                                          element.data().isCompleted == false,
-                                    )
-                                    .toList();
+                                final data = snapshot.requireData;
                                 if (data.isEmpty) {
                                   return const Text('No results found');
                                 }
@@ -82,19 +84,14 @@ class HomeScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           const SizedBox(height: defaultPadding * 0.4),
-                          StreamBuilder<QuerySnapshot<TaskModel>>(
-                            stream: allTasks,
+                          StreamBuilder<List<QueryDocumentSnapshot<TaskModel>>>(
+                            stream: tuple.value2,
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
                                 return Text(snapshot.error.toString());
                               }
                               if (snapshot.hasData) {
-                                final data = snapshot.requireData.docs
-                                    .where(
-                                      (element) =>
-                                          element.data().isCompleted == true,
-                                    )
-                                    .toList();
+                                final data = snapshot.requireData;
                                 if (data.isEmpty) {
                                   return const Text('No results found');
                                 }

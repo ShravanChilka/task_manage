@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show immutable;
@@ -38,7 +37,7 @@ class FirebaseStorageWebService {
     }
   }
 
-  Stream<QuerySnapshot<TaskModel>> getAll() {
+  Stream<List<QueryDocumentSnapshot<TaskModel>>> getAllCompleted() {
     return db
         .collection(client.currentUser!.uid)
         .withConverter(
@@ -46,7 +45,28 @@ class FirebaseStorageWebService {
               TaskModel.fromJson(snapshot.data()!),
           toFirestore: (taskModel, options) => taskModel.toJson(),
         )
-        .snapshots();
+        .snapshots()
+        .map(
+          (e) => e.docs
+              .where((element) => element.data().isCompleted == true)
+              .toList(),
+        );
+  }
+
+  Stream<List<QueryDocumentSnapshot<TaskModel>>> getAllNonCompleted() {
+    return db
+        .collection(client.currentUser!.uid)
+        .withConverter(
+          fromFirestore: (snapshot, options) =>
+              TaskModel.fromJson(snapshot.data()!),
+          toFirestore: (taskModel, options) => taskModel.toJson(),
+        )
+        .snapshots()
+        .map(
+          (e) => e.docs
+              .where((element) => element.data().isCompleted == false)
+              .toList(),
+        );
   }
 
   Future<String> update({
