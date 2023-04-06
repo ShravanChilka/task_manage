@@ -12,10 +12,10 @@ class NonCompletedTaskListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Completed Task',
+          'Pending Task',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: defaultPadding * 0.4),
