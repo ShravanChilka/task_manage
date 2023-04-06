@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_manage/config/styles.dart';
 import 'package:task_manage/features/auth/view/auth_screen.dart';
-import 'config/styles.dart';
 import 'features/auth/view_model/auth_view_model.dart';
 import 'features/task/view_model/task_view_model.dart';
 import 'firebase_options.dart';
@@ -23,12 +23,8 @@ class TaskManage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => AuthViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => TaskViewModel(),
-        ),
+        ChangeNotifierProvider.value(value: AuthViewModel()),
+        ChangeNotifierProvider.value(value: TaskViewModel()),
       ],
       child: MaterialApp(
         theme: themeConfig,

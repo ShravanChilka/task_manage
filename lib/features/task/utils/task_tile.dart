@@ -70,7 +70,7 @@ class TaskTile extends StatelessWidget {
                   color: Palette.neutral300,
                 ),
                 child: Text(
-                  DateFormat('HH : MM').format(taskDoc.data()!.dateTime),
+                  DateFormat('HH : mm').format(taskDoc.data()!.dateTime),
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium

@@ -25,9 +25,7 @@ class AuthViewModel extends ChangeNotifier {
     );
     _authStream = _service.client.authStateChanges().listen(
       (event) {
-        if (event != null) {
-          user = event;
-        }
+        user = event;
       },
     );
   }

@@ -72,32 +72,53 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _titleController.text =
+        Provider.of<TaskViewModel>(context, listen: false).taskModel.title;
+    _descriptionController.text =
+        Provider.of<TaskViewModel>(context, listen: false)
+            .taskModel
+            .description;
+
     return Consumer<TaskViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
           appBar: AppBar(
+            title: Text(
+              widget.event.name,
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
             actions: [
               Visibility(
                 visible: widget.event == TaskScreenEvent.update,
                 child: CustomFloatingActionButton(
+                  tag: 'delete',
                   backgroundColor: Palette.red,
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    viewModel.delete(doc: widget.taskDoc!);
+                    viewModel
+                        .delete(doc: widget.taskDoc!)
+                        .whenComplete(() => Navigator.of(context).pop());
                   },
                 ),
               ),
               const SizedBox(width: defaultPadding * 0.4),
               CustomFloatingActionButton(
+                tag: 'check',
                 icon: const Icon(Icons.check),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     switch (widget.event) {
                       case TaskScreenEvent.create:
-                        viewModel.create();
+                        viewModel
+                            .create()
+                            .whenComplete(() => Navigator.of(context).pop());
+
                         break;
                       case TaskScreenEvent.update:
-                        viewModel.update(doc: widget.taskDoc!);
+                        viewModel
+                            .update(doc: widget.taskDoc!)
+                            .whenComplete(() => Navigator.of(context).pop());
+
                         break;
                     }
                   }
