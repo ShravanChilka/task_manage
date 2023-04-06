@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +12,13 @@ class TaskViewModel extends ChangeNotifier {
       client: FirebaseAuth.instance,
       db: FirebaseFirestore.instance,
     );
-    _taskModel = TaskModel(dateTime: DateTime.now());
   }
 
   late final FirebaseStorageWebService _service;
-  late final TaskModel _taskModel;
+  TaskModel _taskModel = TaskModel(dateTime: DateTime.now());
 
   set taskModel(TaskModel value) {
+    log('task updated');
     _taskModel = value;
     notifyListeners();
   }

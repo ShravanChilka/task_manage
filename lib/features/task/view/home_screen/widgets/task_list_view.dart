@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manage/features/task/model/task_model.dart';
-import 'package:task_manage/features/task/utils/task_tile.dart';
-import 'package:task_manage/features/task/view/task_screen.dart';
+import 'package:task_manage/features/task/view/home_screen/widgets/task_tile.dart';
+import 'package:task_manage/features/task/view/task_screen/task_screen.dart';
 import 'package:task_manage/features/task/view_model/task_view_model.dart';
 
 class TaskListView extends StatelessWidget {

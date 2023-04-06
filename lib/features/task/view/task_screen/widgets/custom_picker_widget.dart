@@ -18,7 +18,7 @@ class CustomPickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(defaultRadius * 2),
-      onTap: () => onTap(),
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius * 2),
